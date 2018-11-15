@@ -1,0 +1,10 @@
+[Unit]
+Description=Check EMQTT cluster status
+
+[Service]
+Type=oneshot
+ExecStart=/opt/mqtt/emqtt/check_cluster.sh
+
+[Install]
+WantedBy=multi-user.target
+Alias=emqtt-cluster-status.service

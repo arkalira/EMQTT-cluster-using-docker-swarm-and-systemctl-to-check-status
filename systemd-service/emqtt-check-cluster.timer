@@ -1,0 +1,7 @@
+[Unit]
+Description=Check EMQTT Cluster status each 15 sec
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=15sec
+Unit=emqtt-check-cluster.service

@@ -1,0 +1,94 @@
+version: "3.7"
+services:
+   master:
+    image: hub.irontec.com/sistemas/p4q-swarm-emqtt-stack:1.0
+    ports:
+      - "18083:18083"
+    environment:
+      - "EMQ_LOADED_PLUGINS=emq_recon,emq_modules,emq_retainer,emq_dashboard"
+      - "EMQ_CLUSTER__DNS__APP=emqtt"
+      - "EMQ_CLUSTER__AUTOHEAL=on"
+      - "EMQ_CLUSTER__AUTOCLEAN=45s"
+      - "EMQ_WAIT_TIME=30"
+      - "EMQ_NAME=emqtt"
+      - "EMQ_HOST=tasks.master"
+      - "EMQ_LISTENER__TCP__EXTERNAL=1883"
+      - "EMQ_MQTT__MAX_PACKET_SIZE=768KB"
+    networks:
+      mqtt:
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+   worker1:
+    image: hub.irontec.com/sistemas/p4q-swarm-emqtt-stack:1.0
+    environment:
+      - "EMQ_NAME=emqtt"
+      - "EMQ_HOST=tasks.worker1"
+      - "EMQ_CLUSTER__AUTOHEAL=on"
+      - "EMQ_WAIT_TIME=30"
+      - "EMQ_CLUSTER__AUTOCLEAN=45s"
+      - "EMQ_JOIN_CLUSTER=emqtt@tasks.master"
+      - "EMQ_LISTENER__TCP__EXTERNAL=1883"
+      - "EMQ_MQTT__MAX_PACKET_SIZE=768KB"
+    ports:
+      - "1884:1883"
+    networks:
+      mqtt:
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == p4q-nodo01
+   worker2:
+    image: hub.irontec.com/sistemas/p4q-swarm-emqtt-stack:1.0
+    environment:
+      - "EMQ_NAME=emqtt"
+      - "EMQ_HOST=tasks.worker2"
+      - "EMQ_CLUSTER__AUTOHEAL=on"
+      - "EMQ_WAIT_TIME=30"
+      - "EMQ_CLUSTER__AUTOCLEAN=45s"
+      - "EMQ_JOIN_CLUSTER=emqtt@tasks.master"
+      - "EMQ_LISTENER__TCP__EXTERNAL=1883"
+      - "EMQ_MQTT__MAX_PACKET_SIZE=768KB"
+    ports:
+      - "1885:1883"
+    networks:
+      mqtt:
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == p4q-nodo02
+   worker3:
+    image: hub.irontec.com/sistemas/p4q-swarm-emqtt-stack:1.0
+    environment:
+      - "EMQ_NAME=emqtt"
+      - "EMQ_HOST=tasks.worker3"
+      - "EMQ_CLUSTER__AUTOHEAL=on"
+      - "EMQ_WAIT_TIME=30"
+      - "EMQ_CLUSTER__AUTOCLEAN=45s"
+      - "EMQ_JOIN_CLUSTER=emqtt@tasks.master"
+      - "EMQ_LISTENER__TCP__EXTERNAL=1883"
+      - "EMQ_MQTT__MAX_PACKET_SIZE=768KB"
+    ports:
+      - "1886:1883"
+    networks:
+      mqtt:
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == p4q-nodo03
+networks:
+  mqtt:
+    driver: overlay
+    attachable: true
+    ipam:
+      config:
+         - subnet: 10.0.16.0/24
