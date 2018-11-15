@@ -5,7 +5,7 @@
 
 ```
 mkdir -p /opt/emqtt/cluster && cd /opt/emqtt/cluster
-git clone https://git.irontec.com/sistemas/p4q-swarm-emqtt-stack.git
+git clone https://git.enterprise.com/sistemas/p4q-swarm-emqtt-stack.git
 docker stack deploy emqtt --compose-file=docker-compose.yml
 ```
 

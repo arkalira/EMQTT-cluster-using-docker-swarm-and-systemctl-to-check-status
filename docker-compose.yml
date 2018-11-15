@@ -1,7 +1,7 @@
 version: "3.7"
 services:
    master:
-    image: hub.irontec.com/sistemas/p4q-swarm-emqtt-stack:1.0
+    image: hub.enterprise.com/sistemas/p4q-swarm-emqtt-stack:1.0
     ports:
       - "18083:18083"
     environment:
@@ -23,7 +23,7 @@ services:
         constraints:
           - node.role == manager
    worker1:
-    image: hub.irontec.com/sistemas/p4q-swarm-emqtt-stack:1.0
+    image: hub.enterprise.com/sistemas/p4q-swarm-emqtt-stack:1.0
     environment:
       - "EMQ_NAME=emqtt"
       - "EMQ_HOST=tasks.worker1"
@@ -44,7 +44,7 @@ services:
         constraints:
           - node.hostname == p4q-nodo01
    worker2:
-    image: hub.irontec.com/sistemas/p4q-swarm-emqtt-stack:1.0
+    image: hub.enterprise.com/sistemas/p4q-swarm-emqtt-stack:1.0
     environment:
       - "EMQ_NAME=emqtt"
       - "EMQ_HOST=tasks.worker2"
@@ -65,7 +65,7 @@ services:
         constraints:
           - node.hostname == p4q-nodo02
    worker3:
-    image: hub.irontec.com/sistemas/p4q-swarm-emqtt-stack:1.0
+    image: hub.enterprise.com/sistemas/p4q-swarm-emqtt-stack:1.0
     environment:
       - "EMQ_NAME=emqtt"
       - "EMQ_HOST=tasks.worker3"
